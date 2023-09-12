@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        div {
+            background-color: #fff;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 95.5%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 60px;
+        }
+
+        input[type="submit"] {
+            background-color: #bb00ff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e41010;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>The Ascent!</h2>
+        <form method="POST" action="/form">
+            <label for="name">Name</label>
+            <input name="name" type="text" value="">
+
+            <label for="grade">Grade</label>
+            <input name="grade" type="text" value="">
+
+            <label for="tries">Tries</label>
+            <input name="tries" type="text" value="">
+
+            <label for="date">Date</label>
+            <input name="date" type="text" value="">
+
+            <label for="crag">Crag</label>
+            <input name="crag" type="text" value="">
+
+            <label for="area">Area</label>
+            <input name="area" type="text" value="">
+
+            <label for="obs">Obs</label>
+            <input name="obs" type="text" value="">
+
+            <input type="submit" value="Submit!" style="font-size: 20px;">
+        </form>
+    </div>
+</body>
+</html>
