@@ -14,7 +14,7 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    // Parsea los datos del formulario
+    // Parsear los datos del formulario
     if err := r.ParseForm(); err != nil {
         http.Error(w, "Error parsing form data", http.StatusBadRequest)
         return
@@ -49,7 +49,7 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
     }
 
 	fmt.Fprintf(w, "Congratulations for the send :)\n")
-	fmt.Fprintf(w, "Soon we will be able to add this to your DB, keep it cool!\n\n")
+	fmt.Fprintf(w, "The new line has just been added to your logbook!\n\n")
 
 	fmt.Fprintf(w, "Name: %s\n", name)
 	fmt.Fprintf(w, "Grade: %s\n", grade)

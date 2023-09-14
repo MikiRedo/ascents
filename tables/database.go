@@ -7,7 +7,7 @@ import (
 	
 )
 
-const url = "root:apparattum@tcp(localhost:3306)/Logbook"
+const url = "root:apparattum@tcp(127.0.0.1:3306)/Logbook"
 
 var db *gorm.DB
 
