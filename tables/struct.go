@@ -20,4 +20,21 @@ const AscentsSchema string = `CREATE TABLE Ascents (
 	crag VARCHAR (50),
 	area VARCHAR (50),
 	obs VARCHAR (50),
-	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP)`
+	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`
+
+
+type Applys struct {
+	Id int				`json:"id"`
+	Name string			`json:"name"`
+	Position string		`json:"position"`
+	Salary string		`json:"salary"`		
+}
+
+const ApplysSchema string = `CREATE TABLE Applys (
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR (50) NOT NULL,
+	position VARCHAR (50) NOT NULL,
+	salary VARCHAR (50),
+	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`

@@ -7,12 +7,12 @@ import (
 	
 )
 
-const url = "root:apparattum@tcp(127.0.0.1:3306)/Logbook"
+var dsn = "root:apparattum@tcp(127.0.0.1:3306)/Logbook?charset=utf8mb4&parseTime=True&loc=Local"
 
 var db *gorm.DB
 
 func ConectDB() {
-	connection, err := gorm.Open(mysql.Open(url), &gorm.Config{})
+	connection, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

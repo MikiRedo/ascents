@@ -60,3 +60,41 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Observations: %s\n", obs)
 
 }
+
+
+func LinkedinForm(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
+		return
+	}
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Bad parseo", http.StatusBadRequest)
+		return
+	}
+
+	//afegir les dades de la solicitud
+
+	name := r.FormValue("name")
+	position := r.FormValue("position")
+	salary := r.FormValue("salary")
+
+	apply := tables.Applys {
+
+		Name: name,
+		Position: position,
+		Salary: salary,
+	}
+
+	db := tables.GetDB()
+		if db.Create(&apply).Error != nil {
+			http.Error(w, "Error al afegir nou registre", http.StatusInternalServerError)
+			return
+		}
+	
+	fmt.Fprintf(w, "Congrats for your new apply")
+	fmt.Fprintf(w, "Keep motivated dude :)")
+
+	fmt.Fprintf(w, "Name: %s\n", name)
+	fmt.Fprintf(w, "Position: %s\n", position)
+	fmt.Fprintf(w, "Salary: %s\n", salary)
+}
