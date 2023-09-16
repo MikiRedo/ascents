@@ -13,11 +13,12 @@ func main(){
 
 	tables.ConectDB()
 	tables.GetDB().AutoMigrate(&tables.Ascents{})
+	tables.GetDB().AutoMigrate(&tables.Applys{})
 	defer tables.Close()
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	http.Handle("/", fileServer)
-	
+
 	http.HandleFunc("/form", handlers.FormHandler)
 	http.HandleFunc("/lnkdn", handlers.LinkedinForm)
 	//ficar algun if per manegar el fallo en /form

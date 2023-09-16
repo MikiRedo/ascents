@@ -91,8 +91,8 @@ func LinkedinForm(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	
-	fmt.Fprintf(w, "Congrats for your new apply")
-	fmt.Fprintf(w, "Keep motivated dude :)")
+	fmt.Fprintf(w, "Congrats for your new apply\n")
+	fmt.Fprintf(w, "Keep motivated dude :)\n\n")
 
 	fmt.Fprintf(w, "Name: %s\n", name)
 	fmt.Fprintf(w, "Position: %s\n", position)
