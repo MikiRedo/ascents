@@ -76,7 +76,7 @@ func FilterHandler(w http.ResponseWriter, r *http.Request) {
 		return 
 	}
 
-	responseJSON, err := json.Marshal(filter)
+	responseJSON, err := json.MarshalIndent(filter, "", "   ")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
