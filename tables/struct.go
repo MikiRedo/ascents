@@ -1,5 +1,11 @@
 package tables
 
+import (
+	"gorm.io/gorm"
+	"fmt"
+)
+
+
 type Ascents struct {
 	Id int				`json:"id"`
 	Name string			`json:"name"`
@@ -23,6 +29,17 @@ const AscentsSchema string = `CREATE TABLE Ascents (
 	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
+func FiltrarGrau(db *gorm.DB, grade string) ([]Ascents, error) {
+	var lines []Ascents
+
+	result := db.Where("grade=?", grade).Find(&lines)
+
+	if result.Error != nil {
+		fmt.Printf("Nothing here")
+	}
+	return lines, nil
+
+}
 
 type Applys struct {
 	Id int				`json:"id"`

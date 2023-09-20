@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-server/tables"
 	"net/http"
@@ -20,7 +21,6 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 	
-	//afegir "crag"
 	name := r.FormValue("name")
 	grade := r.FormValue("grade")
 	tries := r.FormValue("tries")
@@ -57,44 +57,32 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Date of the sending: %s\n", date)
 	fmt.Fprintf(w, "Place: %s\n", crag)
 	fmt.Fprintf(w, "Area: %s\n", area)
-	fmt.Fprintf(w, "Observations: %s\n", obs)
+	fmt.Fprintf(w, "Observations: %s\n\n", obs)
 
+	fmt.Fprintf(w, "If you want to filter some data go to --> 'http://localhost:8080/filter'")
 }
 
-
-func LinkedinForm(w http.ResponseWriter, r *http.Request) {
+func FilterHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
-		return
-	}
-	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Bad parseo", http.StatusBadRequest)
+		http.Error(w, "Method not suported", http.StatusMethodNotAllowed)
 		return
 	}
 
-	//afegir les dades de la solicitud
+	targetGrade := r.FormValue("grade")
 
-	name := r.FormValue("name")
-	position := r.FormValue("position")
-	salary := r.FormValue("salary")
-
-	apply := tables.Applys {
-
-		Name: name,
-		Position: position,
-		Salary: salary,
+	filter, err := tables.FiltrarGrau(tables.GetDB(), targetGrade)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return 
 	}
 
-	db := tables.GetDB()
-		if db.Create(&apply).Error != nil {
-			http.Error(w, "Error al afegir nou registre", http.StatusInternalServerError)
-			return
+	responseJSON, err := json.Marshal(filter)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 		}
-	
-	fmt.Fprintf(w, "Congrats for your new apply\n")
-	fmt.Fprintf(w, "Keep motivated dude :)\n\n")
-
-	fmt.Fprintf(w, "Name: %s\n", name)
-	fmt.Fprintf(w, "Position: %s\n", position)
-	fmt.Fprintf(w, "Salary: %s\n", salary)
+		
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(responseJSON)	
+		// Envía la respuesta JSON al cliente
 }
