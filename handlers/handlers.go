@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-
+//enrutment to add an ascent from the form --> db (logbook)
 func FormHandler(w http.ResponseWriter, r *http.Request) {
 	// Verificar si la solicitut es POST
     if r.Method != "POST" {
@@ -62,27 +62,50 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "If you want to filter some data go to --> 'http://localhost:8080/filter'")
 }
 
+
+//enrutment to recive data from the logbook, filtered by grade / area
 func FilterHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
-		http.Error(w, "Method not suported", http.StatusMethodNotAllowed)
+		http.Error(w, "Method not supported", http.StatusMethodNotAllowed)
 		return
 	}
 
 	targetGrade := r.FormValue("grade")
+	targetArea := r.FormValue("area")
 
-	filter, err := tables.FiltrarGrau(tables.GetDB(), targetGrade)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return 
-	}
+	var linesFounded []tables.Ascents // Debes declarar linesfounded
 
-	responseJSON, err := json.MarshalIndent(filter, "", "   ")
+	if r.FormValue("grade") != "" {
+		filterGrade, err := tables.FiltrarGrau(tables.GetDB(), targetGrade)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+			return
 		}
-		
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(responseJSON)	
-		// Envía la respuesta JSON al cliente
+		linesFounded = filterGrade // Asigna filterGrade a linesfounded
+	}
+
+	if r.FormValue("area") != ""{
+		targetArea, err := tables.FilterArea(tables.GetDB(), targetArea)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	
+		if len(linesFounded) > 0 {
+		// Si ya hay líneas filtradas por grade, realiza la intersección
+			linesFounded = tables.Intersect(linesFounded, targetArea)
+		} else {
+		// Si no hay líneas filtradas por grade, usa las líneas filtradas por área
+			linesFounded = targetArea
+		}
+	}
+
+	output, err := json.MarshalIndent(linesFounded, "", "   ")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(output)
 }

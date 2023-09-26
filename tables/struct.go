@@ -29,14 +29,41 @@ const AscentsSchema string = `CREATE TABLE Ascents (
 	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
+func Intersect(a, b []Ascents) []Ascents {
+    set := make(map[Ascents]bool)
+    var result []Ascents
+
+    for _, line := range a {
+        set[line] = true
+    }
+
+    for _, line := range b {
+        if set[line] {
+            result = append(result, line)
+        }
+    }
+
+    return result
+}
+
 func FiltrarGrau(db *gorm.DB, grade string) ([]Ascents, error) {
 	var lines []Ascents
 
-	result := db.Where("grade=?", grade).Find(&lines)
+	result := db.Where("grade=?", grade).Find(&lines) 
 
 	if result.Error != nil {
 		fmt.Printf("Nothing here")
 	}
-	return lines, nil
+	return lines, nil					//return all the lines from the DB with value grade="?"
+}
 
+func FilterArea(db *gorm.DB, area string) ([]Ascents, error) {
+	var lines []Ascents
+
+	result := db.Where("area=?", area).Find(&lines)
+
+	if result.Error != nil {
+		fmt.Printf("Nothing in this area")
+	}
+	return lines, nil					//return all the lines from the DB with value area="?"
 }
