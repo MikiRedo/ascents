@@ -21,8 +21,11 @@ func main(){
 	http.HandleFunc("/form", handlers.FormHandler)
 	http.HandleFunc("/filter", handlers.FilterHandler)
 	
-	fmt.Printf("Starting server at port: 8080\n")
-	if err := http.ListenAndServe(":8080", nil); err != nil{
+	//again, we add the "docker" port
+	fmt.Printf("Starting server at port: 64750\n")
+	http.ListenAndServe(":64750", nil)
+	if err := http.ListenAndServe(":64750", nil); err != nil{
 		log.Fatal(err)
 	}
+	
 } 

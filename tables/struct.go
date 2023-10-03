@@ -29,6 +29,7 @@ const AscentsSchema string = `CREATE TABLE Ascents (
 	create_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`
 
+//function to return the intersection between two ascents
 func Intersect(a, b []Ascents) []Ascents {
     set := make(map[Ascents]bool)
     var result []Ascents
@@ -66,4 +67,15 @@ func FilterArea(db *gorm.DB, area string) ([]Ascents, error) {
 		fmt.Printf("Nothing in this area")
 	}
 	return lines, nil					//return all the lines from the DB with value area="?"
+}
+
+func FiltrarTries(db *gorm.DB, tries string) ([]Ascents, error) {
+	var lines []Ascents
+
+	result := db.Where("tries=?", tries).Find(&lines)
+
+	if result.Error != nil {
+		fmt.Printf("Nothing to check")
+	}
+	return lines, nil
 }

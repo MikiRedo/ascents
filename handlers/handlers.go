@@ -72,6 +72,7 @@ func FilterHandler(w http.ResponseWriter, r *http.Request) {
 
 	targetGrade := r.FormValue("grade")
 	targetArea := r.FormValue("area")
+	//targetTrie := r.FormValue("tries")
 
 	var linesFounded []tables.Ascents // Debes declarar linesfounded
 
@@ -91,11 +92,19 @@ func FilterHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	
+	/*if r.FormValue("tries") != ""{
+		targetTrie, err := tables.FiltrarTries(tables.GetDB(), targetTrie)
+		if err != nil{
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}	*/
+
 		if len(linesFounded) > 0 {
-		// Si ya hay líneas filtradas por grade, realiza la intersección
+		// if any lines in filtergrade, intersect grade/area
 			linesFounded = tables.Intersect(linesFounded, targetArea)
 		} else {
-		// Si no hay líneas filtradas por grade, usa las líneas filtradas por área
+		// if not, linesfounded will be only Area ones
 			linesFounded = targetArea
 		}
 	}
