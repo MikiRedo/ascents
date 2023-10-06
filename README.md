@@ -2,6 +2,7 @@ Climbing Logbook!!
 
 *** online form to add you recent ascent ***
 *** plus a little function to get some info filtered ***
+**if you dont want to add a line, go check 8a.nu**
 
 #############################################################
 -Static: Forms html.

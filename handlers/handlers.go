@@ -29,6 +29,8 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 	area := r.FormValue("area")
 	obs := r.FormValue("obs")
 
+	
+
 	//utilitzem la estructura de las taula
 	ascent := tables.Ascents {
 		
@@ -41,6 +43,7 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 		Obs: obs,
 
 	}
+
 
 	db := tables.GetDB() // Obtén la conexión a la base de datos desde tu paquete tables
     if db.Create(&ascent).Error != nil {
